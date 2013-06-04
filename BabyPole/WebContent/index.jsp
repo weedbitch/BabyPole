@@ -61,6 +61,7 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 			if( value != null && value != "" ) {
 				src += ", '" + value + "'";
 			}
+			//ignore comments0_1
 			return src;
 		}
 		
