@@ -3,7 +3,7 @@
 <%@page import="com.wdfall.beans.BabyPoleSubject"%>
 <%@page import="java.util.List"%>
 <%@page import="com.wdfall.utils.ClientUtils"%>
-<%@ page language="java" contentType="text/html; charset=EUC-KR"
+<%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,6 +13,17 @@
 	
 	<script src="/jquerymobile/jquery-1.7.1.min.js"></script>
 	<script src="/jquerymobile/jquery.mobile-1.3.1.js"></script>
+	
+	<script>
+	
+		function focusInput(ele, type, inputName) {
+			if( type == "B" ) {
+				$("input[name=" + inputName + "]").focus();
+			} else {
+				$(ele).focus();
+			}
+		}
+	</script>
 	
 	<title>Online Baby Pole</title>
 	
@@ -30,7 +41,7 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 <div data-role="page">
 
 	<div data-role="header">
-		<h1>Online Baby Pole</h1>
+		<h1>우리 아기 앱 설문조사</h1>
 	</div><!-- /header -->
 
 	<div data-role="content">
@@ -40,15 +51,15 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 		{
 		%>
 		<fieldset data-role="controlgroup" data-mini="true">
-			<legend><%=subject.getNumber() %>. <%=subject.getSubject() %> :</legend>
+			<legend><%=subject.getNumber() %>. <%=subject.getSubject() %> </legend>
 			<% 
 			List<BabyPoleItem> itemList = subject.getItemList();
 			for( BabyPoleItem item : itemList )
 			{
-				if( item.getType().equals("I") )
+				if( item.getType().equals("I") || item.getType().equals("B") )
 				{
 			%>
-			<input type="radio" name="<%=item.getSubjectSeq() %>" id="<%=item.getSeq() %>" value="<%=item.getValue() %>" />
+			<input type="radio" name="<%=item.getSubjectSeq() %>" id="<%=item.getSeq() %>" value="<%=item.getValue() %>" onclick="focusInput(this, '<%=item.getType() %>', 'input_<%=item.getSubjectSeq() %>')" />
 			<label for="<%=item.getSeq() %>"><%=item.getName() %></label>
 			<%	
 				} 
@@ -83,7 +94,7 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 					String label = item.getName().replaceAll("[$]input[$]", "").trim();
 			%>
 			<div data-role="fieldcontain">
-			 <%=label %> <input type="text" name="<%=item.getSubjectSeq() %>" id="<%=item.getSeq() %>" value=""  />
+			 <%=label %> <input type="text" name="input_<%=item.getSubjectSeq() %>" id="<%=item.getSeq() %>" value=""  />
 			<div data-role="fieldcontain">
 			<%
 				}
@@ -97,10 +108,7 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 		%>
 	
 	<div class="ui-body ui-body-b">
-		<fieldset class="ui-grid-a">
-				<div class="ui-block-a"><button type="submit" data-theme="d" onclick="window.location.href='/'">Cancel</button></div>
-				<div class="ui-block-b"><button type="submit" data-theme="a" onclick="alert("감사합니다.");">Submit</button></div>
-		</fieldset>
+		<button type="submit" data-theme="b" onclick="alert("감사합니다.");">완료</button>
 	</div>
 
 	</div><!-- /content -->
