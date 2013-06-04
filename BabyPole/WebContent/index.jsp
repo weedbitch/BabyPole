@@ -129,6 +129,7 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 				         	}
 				         	%>
 				    	</select>
+				    	
 				    </div>
 			    </fieldset>
 			<%			
