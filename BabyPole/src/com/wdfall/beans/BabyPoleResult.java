@@ -5,6 +5,8 @@
 
 package com.wdfall.beans;
 
+import org.apache.commons.lang.StringUtils;
+
 
 public class BabyPoleResult
 {
@@ -13,6 +15,10 @@ public class BabyPoleResult
     {
     }
 
+    public boolean validate() {
+    	return !StringUtils.isEmpty( this.result );
+    }
+    
     public int getSeq()
     {
         return seq;
@@ -42,8 +48,39 @@ public class BabyPoleResult
     {
         this.result = result;
     }
+    
 
-    private int seq;
+    public String getReferId() {
+		return referId;
+	}
+
+	public void setReferId(String referId) {
+		this.referId = referId;
+	}
+
+	public String getCreateDatetime() {
+		return createDatetime;
+	}
+
+	public void setCreateDatetime(String createDatetime) {
+		this.createDatetime = createDatetime;
+	}
+
+
+	private int seq;
     private String host;
     private String result;
+    private String referId;
+    private String createDatetime;
+    
+	@Override
+	public String toString() {
+		return "BabyPoleResult [ host=" + host + ", result="
+				+ result + ", referId=" + referId + ", createDatetime="
+				+ createDatetime + "]";
+	}
+	
+    
+    
+    
 }

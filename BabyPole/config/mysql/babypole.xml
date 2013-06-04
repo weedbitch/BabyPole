@@ -9,12 +9,16 @@
 		INSERT INTO babypole_result
 			(
 			host, 
-			result
+			result,
+			refer_id,
+			create_datetime
 			)
 			values
 			(
 			#host#, 
-			#result#
+			#result#,
+			#referId#,
+			#createDatetime#
 			)
 	    
 	    <selectKey keyProperty="seq" resultClass="Integer">

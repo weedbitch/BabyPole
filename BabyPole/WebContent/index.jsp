@@ -39,11 +39,24 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 				itemValues += ( "'" + getInputValueByType(inputName, inputNames[inputName]) + "'," );
 			   //alert( inputName  + ' type=' + inputNames[inputName] );
 			}
-			subjectValues +=  "{" + removeLastDelimiter(itemValues, ",") + "},";
+			subjectValues +=  "<%=subject.getNumber()%>" +"={" + removeLastDelimiter(itemValues, ",") + "},";
 		<%
 		}
 		%>
 		subjectValues = removeLastDelimiter(subjectValues, ",");
+		$(result).val( subjectValues );
+		
+		var $form = $(poleForm);
+		$.ajax({
+		  type: "POST",
+		  url: "/proc/poleProcess.jsp",
+		  data: $form.serialize(),
+		  success: function(data){ 
+	          alert("success!!");
+	      }
+		
+		});
+		
 	}
 	</script>
 	
@@ -137,7 +150,11 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 	
 </div><!-- /page -->
  
- 
+<form name="poleForm" id="poleForm">
+	<input type="hidden" name="host" id="host" value="<%=clientIP %>" />
+	<input type="hidden" name="referId" id="referId" value="<%=referId %>" />
+	<input type="hidden" name="result" id="result" />
+</form>
  
 </body>
 </html>

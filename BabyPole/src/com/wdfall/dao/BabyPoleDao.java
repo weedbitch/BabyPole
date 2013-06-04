@@ -27,12 +27,12 @@ public class BabyPoleDao
         return instance;
     }
 
-    public int insertPole(BabyPoleResult bean)
+    public int insertPoleResult(BabyPoleResult bean)
     {
         int result = 0;
         try
         {
-            result = DaoHelper.insert(SqlMapManager.SQL_MAP_DB_TYPE, "babypole.INSERT_BABY_POLE", bean);
+            result = DaoHelper.insert(SqlMapManager.SQL_MAP_DB_TYPE, "babypole.INSERT_BABY_POLE_RESULT", bean);
         }
         catch(Exception e)
         {

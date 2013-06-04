@@ -23,6 +23,6 @@ public class TestInsertion
         BabyPoleResult bean = new BabyPoleResult();
         bean.setHost("1.214.982.98");
         bean.setResult("1={}, 2={}");
-        System.out.println((new StringBuilder("xxxx=")).append(BabyPoleDao.getInstance().insertPole(bean)).toString());
+        System.out.println((new StringBuilder("xxxx=")).append(BabyPoleDao.getInstance().insertPoleResult(bean)).toString());
     }
 }
