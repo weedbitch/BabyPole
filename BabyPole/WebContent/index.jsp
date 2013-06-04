@@ -1,3 +1,4 @@
+<%@page import="org.apache.commons.lang.StringUtils"%>
 <%@page import="com.wdfall.beans.BabyPoleItem"%>
 <%@page import="com.wdfall.dao.BabyPoleDao"%>
 <%@page import="com.wdfall.beans.BabyPoleSubject"%>
@@ -7,6 +8,14 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
+	
+<%
+String clientIP = ClientUtils.getClientIPAddr(request);
+String referId = StringUtils.stripToEmpty( request.getParameter("referId") );
+
+List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
+%>
+
 <head>
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="/jquerymobile/jquery.mobile-1.3.1.css" />
@@ -23,15 +32,45 @@
 				$(ele).focus();
 			}
 		}
+		
+		
+		function submitPole() {
+			//confirm
+			<%
+			for( BabyPoleSubject subject : subjectList ) 
+			{
+			%>
+			var subjectId = "subject_<%=subject.getSeq()%>";
+			
+			$('#' + subjectId + ' :input').each( function() {
+				if( $(this).prop('tagName') == "INPUT" ) {
+					alert( $(this).attr("type") );
+				}
+			})
+			
+			<%
+			}
+			%>
+			
+		}
+		
+		/**
+		* May be used by multiple check type
+		*/
+		function appendValue(src, value) {
+			if( value != null && value != "" ) {
+				src += ", '" + value + "'";
+			}
+			return src;
+		}
+		
+		function appendTextValue() {
+			
+		}
+		
 	</script>
 	
-	<title>Online Baby Pole</title>
-	
-<%
-String clientIP = ClientUtils.getClientIPAddr(request);
-List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
-
-%>
+	<title>신생아 육아 패턴 설문 </title>
 
 </head>
 
@@ -41,16 +80,16 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 <div data-role="page">
 
 	<div data-role="header">
-		<h1>우리 아기 앱 설문조사</h1>
+		<img alt="baby icon" width="36" height="36" src="/images/icon.png" style="position: absolute; float: left; margin-left: 15px;">
+		<h1>신생아 육아 패턴 설문</h1>
 	</div><!-- /header -->
-
 	<div data-role="content">
 		
 		<%
 		for( BabyPoleSubject subject : subjectList ) 
 		{
 		%>
-		<fieldset data-role="controlgroup" data-mini="true">
+		<fieldset data-role="controlgroup" data-mini="true" id="subject_<%=subject.getSeq()%>">
 			<legend><%=subject.getNumber() %>. <%=subject.getSubject() %> </legend>
 			<% 
 			List<BabyPoleItem> itemList = subject.getItemList();
@@ -76,17 +115,22 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 					String[] names = item.getName().split("=")[1].split(",");
 					
 			%>
-			    	<select name="<%=item.getSubjectSeq() + "_" + item.getSeq() %>" id="<%=item.getSubjectSeq() + "_" + item.getSeq() %>" data-mini="true">
-			    		<% 
-			    		int index = 0; 
-			    		for( String itemName : names ) {
-			    			String value = item.getValue().split(",")[index++].trim();
-			    		%>
-			         	<option value="<%=value %>"> [ <%=itemSubject %> ]: <%=itemName%> </option>
-			         	<% 
-			         	}
-			         	%>
-			    	</select>
+				<fieldset class="ui-grid-a">
+					<div class="ui-block-a" style="width: 30%;" > <b>[ <%=itemSubject %> ]:</b></div>
+					<div class="ui-block-b" style="width: 70%" >
+				    	<select name="<%=item.getSubjectSeq() + "_" + item.getSeq() %>" id="<%=item.getSubjectSeq() + "_" + item.getSeq() %>" data-mini="true">
+				    		<% 
+				    		int index = 0; 
+				    		for( String itemName : names ) {
+				    			String value = item.getValue().split(",")[index++].trim();
+				    		%>
+				         	<option value="<%=value %>"><%=itemName%> </option>
+				         	<% 
+				         	}
+				         	%>
+				    	</select>
+				    </div>
+			    </fieldset>
 			<%			
 				}
 				else if( item.getType().equals("J") ) 
@@ -108,7 +152,7 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 		%>
 	
 	<div class="ui-body ui-body-b">
-		<button type="submit" data-theme="b" onclick="alert("감사합니다.");">완료</button>
+		<button type="submit" data-theme="b" onclick="submitPole();">완료</button>
 	</div>
 
 	</div><!-- /content -->
