@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="euc-kr"?>
+  <project name="BabyPole" default="deploy" basedir=".">
+
+    <property file="./build.properties" />
+
+
+    <path id="compile.classpath">
+    	
+        <fileset dir="${lib.dir}">       	
+       		<include name="*.jar"/>
+        </fileset>
+    	
+    </path>
+  	
+    <target name="clean-dist">
+      	<delete dir="${deploy.dir}" />
+    </target>
+
+	<!-- create directories -->
+    <target name="prepare">
+    	<mkdir dir="${bin.dir}"/>
+    	<mkdir dir="${deploy.dir}"/>
+      	<mkdir dir="${deploy.dir}/WEB-INF"/>
+		<mkdir dir="${deploy.dir}/WEB-INF/lib"/>
+		<mkdir dir="${deploy.dir}/WEB-INF/classes"/>
+		<mkdir dir="${deploy.dir}/WEB-INF/logs"/>
+    </target>
+
+  	<!-- 
+  		Compile 
+  		requeired preparing Bin Directory changed
+  	-->
+	<target name="compile">
+		<javac srcdir="${src.dir}" destdir="${bin.dir}" encoding="utf8" fork="yes" >
+            <classpath refid="compile.classpath"/>
+        </javac>
+	</target>
+
+    <target name="deploy" >
+		<tstamp/>
+
+    	<!-- copy all resources belows under WebRoot -->
+    	<copy todir="${deploy.dir}" includeemptydirs="true">
+    		<fileset dir="${WebContent.dir}">
+				<include name="**/*" />
+				<exclude name="**/servlet.jar" />
+				<exclude name="**/javax.servlet.jar" />
+				<exclude name="**/CVS" />
+    			<exclude name="**/.svn" />
+    			<exclude name="/META-INF/**" />
+    			<exclude name="**/test/**" />
+    			<exclude name="**/*.mex" />
+    			<exclude name="**/*.as" />
+    			<exclude name="**/*.fla" />
+    			<exclude name="**/test*.*" />
+			</fileset>
+		</copy>
+    	
+    	
+    	<!-- copy all resources belows under WebRoot -->
+    	<copy todir="${deploy.dir}/WEB-INF/classes" includeemptydirs="true">
+    		<fileset dir="${bin.dir}">
+				<include name="**/*.class" />
+			</fileset>
+		</copy>
+    	
+    	<!-- copy all resources belows under WebRoot -->
+    	<copy todir="${deploy.dir}/WEB-INF/classes" includeemptydirs="true">
+    		<fileset dir="${config.dir}">
+				<include name="**/*.xml" />
+    			<include name="**/*.properties" />
+			</fileset>
+		</copy>
+   	</target>
+  	
+</project>
