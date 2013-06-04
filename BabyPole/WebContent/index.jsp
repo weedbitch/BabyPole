@@ -65,6 +65,7 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 		}
 		
 		function appendTextValue() {
+			
 			//ignore comments
 		}
 		
