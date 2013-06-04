@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE sqlMap PUBLIC "-//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd">
+<sqlMap namespace="babypole">
+    
+    
+	<insert id="INSERT_BABY_POLE_RESULT" 
+    			parameterClass="com.wdfall.beans.BabyPoleResult"  >
+        
+		INSERT INTO babypole_result
+			(
+			host, 
+			result
+			)
+			values
+			(
+			#host#, 
+			#result#
+			)
+	    
+	    <selectKey keyProperty="seq" resultClass="Integer">
+			SELECT LAST_INSERT_ID() FROM DUAL
+        </selectKey>
+        
+    </insert>
+    
+    
+    <select id="SELECT_BABY_POLE_SUBJECT" 
+    			resultClass="com.wdfall.beans.BabyPoleSubject"  >
+        
+		SELECT 	
+			seq, 
+			number, 
+			subject
+		FROM 
+			babypole_subject 
+        
+    </select>
+    
+    <select id="SELECT_BABY_POLE_ITEM_BY_SUBJECT"
+    			parameterClass="java.lang.Integer"
+    			resultClass="com.wdfall.beans.BabyPoleItem"  >
+        
+		SELECT 	
+			seq, 
+			subject_seq AS subjectSeq, 
+			type, 
+			name, 
+			value
+		FROM 
+			babypole_item
+        WHERE
+        	subject_seq = $subjectSeq$
+    </select>
+    
+    
+</sqlMap>
+

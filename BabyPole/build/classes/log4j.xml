@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
+
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+   <!-- 콘솔로 보기 -->
+    <appender name="CONSOLE-log" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="[%-5p] [%d{MM-dd HH:mm:ss}] %-20C{1}:%-20M[%t] || %m %n"/>
+        	<!-- 
+            <param name="ConversionPattern" value="[%p] [%d{MM-dd HH:mm:ss}] %C:%M[%t] || %m %n"/>
+             -->
+        </layout>
+    </appender>
+
+	<appender name="FILE-POLE" class="org.apache.log4j.RollingFileAppender">
+        <param name="file" value="./pole.log"/>
+        <param name="Append" value="true"/>
+        <param name="maxBackupIndex" value="10"/>
+        <param name="MaxFileSize" value="50MB"/>
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %-5p [%t] %-17c{2} (%13F:%L) %3x - %m%n"/>
+        </layout>
+    </appender>
+    
+	
+	<logger name="com.wdfall">
+	 <level value="DEBUG" />
+	 <appender-ref ref="FILE-POLE" />
+	 <appender-ref ref="CONSOLE-log" />
+	</logger>
+	<!-- 
+    <root>
+        <level value="ERROR"/>
+        <appender-ref ref="LOGFILE-XML"/>
+    </root>
+	-->
+</log4j:configuration>
+
+

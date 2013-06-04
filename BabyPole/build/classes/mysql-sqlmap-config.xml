@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sqlMapConfig PUBLIC "-//iBATIS.com//DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+
+<sqlMapConfig>
+
+	<properties resource="mysql-sqlmap-config.properties" />
+
+	<settings cacheModelsEnabled="true"
+				enhancementEnabled="true"
+				lazyLoadingEnabled="true"
+				maxRequests="512"
+				maxSessions="64"
+				maxTransactions="32"
+				useStatementNamespaces="true" 
+				
+				/>
+	
+	 
+	<!-- <typeHandler javaType="java.math.BigInteger" callback="com.tcosol.assetflow.common.db.BigIntegerTypeHandler"/> -->
+
+	<transactionManager type="JDBC">
+		<dataSource type="SIMPLE">
+			<property name="JDBC.Driver" value="${driver}"/>
+			<property name="JDBC.ConnectionURL" value="${url}"/>
+			<property name="JDBC.Username" value="${username}"/>
+			<property name="JDBC.Password" value="${password}"/>
+			<property name="JDBC.CompliantTruncation" value="true"/>
+			<property name="Pool.MaximumActiveConnections" value="50" />
+      		<property name="Pool.MaximumIdleConnections" value="50" />
+      		<property name="Pool.MaximumWait" value="1000" />
+			<property name="JDBC.AutoCommit" value="false"/>
+			<property value="${pingquery}" name="Pool.PingQuery"/>
+			<property value="${pingenable}" name="Pool.PingEnabled"/>
+			<property value="${pingoldertime}" name="Pool.PingConnectionsOlderThan"/>
+		</dataSource>
+	</transactionManager>
+	
+	
+	<sqlMap resource="mysql/babypole.xml" />
+
+    
+    
+</sqlMapConfig>
