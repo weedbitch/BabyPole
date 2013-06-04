@@ -22,55 +22,29 @@ List<BabyPoleSubject> subjectList = BabyPoleDao.getInstance().getSubjectList();
 	
 	<script src="/jquerymobile/jquery-1.7.1.min.js"></script>
 	<script src="/jquerymobile/jquery.mobile-1.3.1.js"></script>
-	
+	<script src="/js/pole.js"></script>
 	<script>
-	
-		function focusInput(ele, type, inputName) {
-			if( type == "B" ) {
-				$("input[name=" + inputName + "]").focus();
-			} else {
-				$(ele).focus();
-			}
-		}
-		
-		
-		function submitPole() {
-			//confirm
-			<%
-			for( BabyPoleSubject subject : subjectList ) 
-			{
-			%>
+	function submitPole() {
+		//confirm
+		var subjectValues = "";
+		<%
+		for( BabyPoleSubject subject : subjectList ) 
+		{
+		%>
+			//alert("<%=subject.getSubject()%>");
 			var subjectId = "subject_<%=subject.getSeq()%>";
-			
-			$('#' + subjectId + ' :input').each( function() {
-				if( $(this).prop('tagName') == "INPUT" ) {
-					alert( $(this).attr("type") );
-				}
-			})
-			
-			<%
+			var inputNames = getSubjectInputNames(subjectId);
+			var itemValues = "";
+			for (var inputName in inputNames) {
+				itemValues += ( "'" + getInputValueByType(inputName, inputNames[inputName]) + "'," );
+			   //alert( inputName  + ' type=' + inputNames[inputName] );
 			}
-			%>
-			
+			subjectValues +=  "{" + removeLastDelimiter(itemValues, ",") + "},";
+		<%
 		}
-		
-		/**
-		* May be used by multiple check type
-		*/
-		function appendValue(src, value) {
-			if( value != null && value != "" ) {
-				src += ", '" + value + "'";
-			}
-			//ignore comments0_1
-			return src;
-		}
-		
-		function appendTextValue() {
-			
-			//ignore comments
-			//ignore comments2
-		}
-		
+		%>
+		subjectValues = removeLastDelimiter(subjectValues, ",");
+	}
 	</script>
 	
 	<title>신생아 육아 패턴 설문 </title>
